@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 import os
 import yt_dlp
 
@@ -6,20 +6,41 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if request.method == 'POST':
-        video_url = request.form.get('video_url')
-        if not video_url:
-            return render_template('index.html', error="No URL provided.")
-        try:
-            if 'playlist' in video_url:
-                download_youtube_playlist(video_url)
-                return render_template('index.html', message="Playlist download completed!")
-            else:
-                download_youtube_video(video_url)
-                return render_template('index.html', message="Video download completed!")
-        except Exception as e:
-            return render_template('index.html', error=f"Error: {e}")
     return render_template('index.html')
+
+@app.route('/fetch_info', methods=['POST'])
+def fetch_info():
+    video_url = request.form.get('video_url')
+    if not video_url:
+        return jsonify({'error': 'No URL provided.'})
+    try:
+        info = fetch_video_info(video_url)
+        thumbnail_url = info['thumbnail']
+        title = info['title']
+        return jsonify({'thumbnail_url': thumbnail_url, 'title': title})
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
+@app.route('/download', methods=['POST'])
+def download():
+    video_url = request.form.get('video_url')
+    if not video_url:
+        return jsonify({'error': "No URL provided."})
+    try:
+        if 'playlist' in video_url:
+            download_youtube_playlist(video_url)
+            return jsonify({'message': "Playlist download completed!"})
+        else:
+            download_youtube_video(video_url)
+            return jsonify({'message': "Video download completed!"})
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
+def fetch_video_info(video_url):
+    ydl_opts = {}
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(video_url, download=False)
+    return info
 
 def download_youtube_video(video_url):
     try:

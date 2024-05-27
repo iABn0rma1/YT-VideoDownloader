@@ -9,18 +9,80 @@
 <body>
     
     <div class="text-input">
-        <form method="post">
-            <input type="text" id="video_url" name="video_url" placeholder="Try typing something in here!" required>
+        <form id="fetch_info_form">
+            <input type="text" id="video_url" name="video_url" placeholder="Enter YouTube video or playlist URL" required>
             <label for="video_url">URL:</label>
-            <button type="submit">Download</button>
+            <button type="button" id="fetch_info_button">Submit</button>
         </form>
     </div>
 
-    {% if error %}
-        <p style="color: red;">{{ error }}</p>
-    {% elif message %}
-        <p style="color: green;">{{ message }}</p>
-    {% endif %}
+    <div id="video_info" style="display: none;">
+        <img id="thumbnail_img" src="" alt="Thumbnail">
+        <h3 id="video_title" class="title"></h3>
+        <div class="overlay"></div>
+        <div class="button">
+            <a href="#" id="download_button">Download</a>
+        </div>
+    </div>
+
+    <div id="progress" style="display: none;">
+        <p>Downloading...</p>
+        <progress id="progressBar" value="0" max="100"></progress>
+    </div>
+
+    <p id="message" style="color: green;"></p>
+    <p id="error" style="color: red;"></p>
+
+    <script>
+        document.getElementById('fetch_info_button').addEventListener('click', function() {
+            const videoUrl = document.getElementById('video_url').value;
+            fetch('/fetch_info', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `video_url=${videoUrl}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('error').innerText = data.error;
+                    document.getElementById('message').innerText = '';
+                } else {
+                    document.getElementById('video_title').innerText = data.title;
+                    document.getElementById('thumbnail_img').src = data.thumbnail_url;
+                    document.getElementById('video_info').style.display = 'block';
+                    document.getElementById('download_video_url').value = videoUrl;
+                    document.getElementById('error').innerText = '';
+                    document.getElementById('message').innerText = '';
+                }
+            });
+        });
+
+        document.getElementById('download_button').addEventListener('click', function(e) {
+            e.preventDefault();  // Prevent the default anchor behavior
+            document.getElementById('progress').style.display = 'block';
+            const videoUrl = document.getElementById('video_url').value;
+            fetch('/download', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `video_url=${videoUrl}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('progress').style.display = 'none';
+                if (data.error) {
+                    document.getElementById('error').innerText = data.error;
+                    document.getElementById('message').innerText = '';
+                } else {
+                    document.getElementById('message').innerText = data.message;
+                    document.getElementById('error').innerText = '';
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>

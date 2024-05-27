@@ -14,7 +14,7 @@ body {
 {    
     position: relative;
     margin-top: 50px;
-    
+        
     input[type="text"] {
         display: inline-block;
         width: 500px;
@@ -26,7 +26,7 @@ body {
         padding: 10px 10px 10px 100px;
         transition: all 0.1s ease-out;
     }
-    
+
     input[type="text"] + label {
         position: absolute;
         top: 0;
@@ -42,20 +42,20 @@ body {
         transition: all 0.3s ease-in;
         transition-delay: 0.2s;
     }
-    
+
     input[type="text"]:focus + label {
         transform: translateY(-120%) translateX(0%);
         border-radius: 3px;
         transition: all 0.1s ease-out;
     }
-    
+
     input[type="text"]:focus {
         padding: 10px;
         transition: all 0.3s ease-out;
         transition-delay: 0.2s;
     }
 
-    button[type=submit] {
+    button[type=button] {
         /* margin-left: 0.5em; */
         height: 40px;
         /* padding: 0.2em 1em 0.2em 2.25em; */
@@ -71,7 +71,7 @@ body {
         cursor: pointer;
         transition: all 0.3s ease 0s;
     }
-    button[type="submit"]:hover {
+    button[type="button"]:hover {
         color: #fff;
         background-color: #E03616;
         border-color: #fff;
@@ -80,10 +80,81 @@ body {
         -ms-transition: all 0.3s ease;
         transition: all 0.3s ease;
     }
-    button[type="submit"]:focus {
+    button[type="button"]:focus {
         background-position: 2em -4em;
         -webkit-transition: all 0.3s ease;
         -ms-transition: all 0.3s ease;
         transition: all 0.3s ease;
     }   
 }
+
+
+#video_info {
+    position: relative;
+    margin-top: 50px;
+    width: 30em;
+    height: 24em;
+    background-color: rgba(0, 0, 0, .3);
+}
+  
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0);
+    transition: background 0.5s ease;
+}
+  
+#video_info:hover .overlay {
+    display: block;
+    background: rgba(0, 0, 0, .5);
+}
+
+img {
+    position: absolute;
+    width: 30em;
+    height: 15em;
+  }
+  
+.title {
+    position: absolute;
+    width: 500px;
+    top: 12em;
+    font-weight: 500;
+    font-size: 1.2em;
+    text-align: center;
+    text-transform: uppercase;
+    color: white;
+    z-index: 1;
+    transition: top .5s ease;
+}
+  
+/* #video_info:hover .title {
+    top: 10em;
+} */
+
+.button {
+    position: absolute;
+    width: 500px;
+    left:0;
+    top: 21em;
+    text-align: center;
+    /* opacity: 0;
+    transition: opacity .35s ease; */
+}
+
+.button a {
+    width: 200px;
+    padding: 12px 48px;
+    text-align: center;
+    color: white;
+    border: solid 2px white;
+    z-index: 1;
+}
+
+#video_info:hover .button {
+    opacity: 1;
+}
+  
