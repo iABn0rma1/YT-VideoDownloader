@@ -56,16 +56,14 @@ body {
     }
 
     button[type=button] {
-        /* margin-left: 0.5em; */
+        margin-left: 0.7em;
         height: 40px;
-        /* padding: 0.2em 1em 0.2em 2.25em; */
+        width: 80px;
         font-weight: bold;
         font-family: "Open Sans";
         text-transform: uppercase;
         color: #fff;
         background-color: #222a35;
-        /* background: url(https://i.imgur.com/Th606mh.png) no-repeat scroll 0.75em 0.07em transparent; */
-        /* background-size: 54px 204px; */
         border-radius: 2em;
         border: 0.15em solid #E03616;
         cursor: pointer;
@@ -94,9 +92,11 @@ body {
     margin-top: 50px;
     width: 30em;
     height: 24em;
-    background-color: rgba(0, 0, 0, .3);
+    background-color: rgba(0, 0, 0, .5);
+    text-align: justify;
+    overflow: hidden;
 }
-  
+
 .overlay {
     position: absolute;
     top: 0;
@@ -106,34 +106,30 @@ body {
     background: rgba(0, 0, 0, 0);
     transition: background 0.5s ease;
 }
-  
+
 #video_info:hover .overlay {
     display: block;
-    background: rgba(0, 0, 0, .5);
+    background: rgba(0, 0, 0, .8);
 }
 
 img {
     position: absolute;
     width: 30em;
     height: 15em;
-  }
-  
+}
+
 .title {
     position: absolute;
     width: 500px;
-    top: 12em;
+    top: 15.5em;
+    margin: 0em 0em 0em 0.2em;
     font-weight: 500;
-    font-size: 1.2em;
-    text-align: center;
+    font-size: 1em;
     text-transform: uppercase;
     color: white;
     z-index: 1;
     transition: top .5s ease;
 }
-  
-/* #video_info:hover .title {
-    top: 10em;
-} */
 
 .button {
     position: absolute;
@@ -141,8 +137,6 @@ img {
     left:0;
     top: 21em;
     text-align: center;
-    /* opacity: 0;
-    transition: opacity .35s ease; */
 }
 
 .button a {

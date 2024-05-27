@@ -12,13 +12,14 @@
         <form id="fetch_info_form">
             <input type="text" id="video_url" name="video_url" placeholder="Enter YouTube video or playlist URL" required>
             <label for="video_url">URL:</label>
-            <button type="button" id="fetch_info_button">Submit</button>
+            <button type="button" id="fetch_info_button">Search</button>
         </form>
     </div>
 
     <div id="video_info" style="display: none;">
         <img id="thumbnail_img" src="" alt="Thumbnail">
         <h3 id="video_title" class="title"></h3>
+        <p id="video_count" class="video-count"></p>
         <div class="overlay"></div>
         <div class="button">
             <a href="#" id="download_button">Download</a>
@@ -55,6 +56,9 @@
                     document.getElementById('download_video_url').value = videoUrl;
                     document.getElementById('error').innerText = '';
                     document.getElementById('message').innerText = '';
+                    if (data.video_count) {
+                        document.getElementById('video_count').innerText = `Number of videos: ${data.video_count}`;
+                    }
                 }
             });
         });

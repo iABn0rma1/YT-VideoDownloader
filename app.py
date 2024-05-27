@@ -17,7 +17,8 @@ def fetch_info():
         info = fetch_video_info(video_url)
         thumbnail_url = info['thumbnail']
         title = info['title']
-        return jsonify({'thumbnail_url': thumbnail_url, 'title': title})
+        video_count = info.get('n_entries', 1)
+        return jsonify({'thumbnail_url': thumbnail_url, 'title': title, 'video_count': video_count})
     except Exception as e:
         return jsonify({'error': str(e)})
 
@@ -40,6 +41,11 @@ def fetch_video_info(video_url):
     ydl_opts = {}
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(video_url, download=False)
+        if 'entries' in info:  # Playlist
+            first_video = info['entries'][0]
+            info['thumbnail'] = first_video['thumbnail']
+            info['title'] = info['title']
+            info['n_entries'] = len(info['entries'])
     return info
 
 def download_youtube_video(video_url):
