@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="../static/css/style.css">
     <title>YouTube Video Downloader</title>
 </head>
+
 <body>
-    
     <div class="text-input">
         <form id="fetch_info_form">
             <input type="text" id="video_url" name="video_url" placeholder="Enter YouTube video or playlist URL" required>
             <label for="video_url">URL:</label>
-            <button type="button" id="fetch_info_button">Search</button>
+            <button type="button" id="fetch_info_button">Submit</button>
         </form>
     </div>
 
@@ -53,12 +54,15 @@
                     document.getElementById('video_title').innerText = data.title;
                     document.getElementById('thumbnail_img').src = data.thumbnail_url;
                     document.getElementById('video_info').style.display = 'block';
-                    document.getElementById('download_video_url').value = videoUrl;
                     document.getElementById('error').innerText = '';
                     document.getElementById('message').innerText = '';
                     if (data.video_count) {
                         document.getElementById('video_count').innerText = `Number of videos: ${data.video_count}`;
                     }
+
+                    // Set the download button's data attributes
+                    document.getElementById('download_button').setAttribute('data-video-url', videoUrl);
+                    document.getElementById('download_button').setAttribute('data-video-title', data.title);
                 }
             });
         });
@@ -66,27 +70,33 @@
         document.getElementById('download_button').addEventListener('click', function(e) {
             e.preventDefault();  // Prevent the default anchor behavior
             document.getElementById('progress').style.display = 'block';
-            const videoUrl = document.getElementById('video_url').value;
+            const videoUrl = document.getElementById('download_button').getAttribute('data-video-url');
+            const videoTitle = document.getElementById('download_button').getAttribute('data-video-title');
             fetch('/download', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: `video_url=${videoUrl}`
+                body: `video_url=${videoUrl}&video_title=${videoTitle}`
             })
-            .then(response => response.json())
-            .then(data => {
+            .then(response => response.blob())
+            .then(blob => {
                 document.getElementById('progress').style.display = 'none';
-                if (data.error) {
-                    document.getElementById('error').innerText = data.error;
-                    document.getElementById('message').innerText = '';
-                } else {
-                    document.getElementById('message').innerText = data.message;
-                    document.getElementById('error').innerText = '';
-                }
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = `${videoTitle}.mp4`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => {
+                document.getElementById('progress').style.display = 'none';
+                document.getElementById('error').innerText = 'An error occurred while downloading the video.';
+                console.error(error);
             });
         });
     </script>
-
 </body>
 </html>
