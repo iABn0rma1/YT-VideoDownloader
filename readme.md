@@ -45,10 +45,10 @@ Welcome to the YouTube Video Downloader project! This simple web application all
 
 ## Screenshots
 
-![alt text](assets/images/image-1.png)
+![alt text](static/images/image-1.webp)
 *Enter the URL of the YouTube video or playlist.*
 
-![alt text](assets/images/image-2.png)
+![alt text](static/images/image-2.webp)
 *Review video information before downloading.*
 
 ## Contributing

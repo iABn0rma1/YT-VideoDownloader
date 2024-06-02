@@ -9,6 +9,20 @@
 </head>
 
 <body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo-container">
+                <img src="../static/images/yt-icon.webp" alt="YouTube Logo" class="youtube-logo">
+                <span class="nav-title">YouTube Videos Downloader</span>
+            </div>
+            <div class="developer-logo-container">
+                <a href="https://github.com/iABn0rma1/YT-VideoDownloader.flask/tree/main" target="_blank" rel="noopener noreferrer" aria-label="source code">
+                    <img src="../static/images/icon.png" alt="Developer Logo" class="developer-logo">
+                </a>
+            </div>
+        </div>
+    </nav>
+
     <div class="text-input">
         <form id="fetch_info_form">
             <input type="text" id="video_url" name="video_url" placeholder="Enter YouTube video or playlist URL" required>
@@ -17,7 +31,7 @@
         </form>
     </div>
 
-    <div id="video_info" style="display: none;">
+    <div id="video_info">
         <img id="thumbnail_img" src="" alt="Thumbnail">
         <h3 id="video_title" class="title"></h3>
         <p id="video_count" class="video-count"></p>
@@ -27,13 +41,13 @@
         </div>
     </div>
 
-    <div id="progress" style="display: none;">
+    <div id="progress">
         <p>Downloading...</p>
         <progress id="progressBar" value="0" max="100"></progress>
     </div>
 
-    <p id="message" style="color: green;"></p>
-    <p id="error" style="color: red;"></p>
+    <p id="message"></p>
+    <p id="error"></p>
 
     <script>
         document.getElementById('fetch_info_button').addEventListener('click', function() {
