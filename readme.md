@@ -20,7 +20,7 @@ Welcome to the YouTube Video Downloader project! This simple web application all
 1. Clone the repository:
 
    ```
-   git clone https://github.com/your-username/youtube-video-downloader.git
+   git clone https://github.com/iABn0rma1/YT-VideoDownloader.flask
    ```
 
 2. Install dependencies:
